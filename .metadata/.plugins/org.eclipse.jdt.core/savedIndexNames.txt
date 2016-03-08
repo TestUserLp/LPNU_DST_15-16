@@ -1,0 +1,2 @@
+INDEX VERSION 1.127+D:\documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.jdt.core
+3726495391.index
