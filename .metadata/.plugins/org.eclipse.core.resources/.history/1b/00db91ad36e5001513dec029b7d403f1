@@ -1,0 +1,47 @@
+package cons;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class ConsoleInterp {
+
+	public static void main(String[] args) {
+		String[] parts;
+		InputStreamReader isr = new InputStreamReader ( System.in );
+		BufferedReader br = new BufferedReader ( isr );
+				String s = null;
+				System.out.printf("Enter String%n");
+		try {
+		   while ( (s = br.readLine ()) != null ) {
+			  parts = s.split(" ");
+			  int i=1;
+			  String s1;
+			  switch (parts[0]) {
+	            case "ping":  System.out.println("Your command is ping");
+	                     break;
+	            case "echo": while (i<=parts.length)  
+	            					s1=s1.join(" ", parts[i]);
+	            					System.out.printf("Your command is 'echo' with the parameter %s",s1);
+	                     break;
+	            case "login": System.out.printf("Your command is 'login' with the parameters: name=%s, password=%s", parts[1], parts[2]);
+	                     break;
+	            case "list":  System.out.println("Your command is list");
+	                     break;
+	            case "msg":  System.out.println("Your command is msg");
+	                     break;
+	            case "file":  System.out.printf("Your command is 'file' with the parameters: name=%s, filename=%s", parts[1], parts[2]);
+	                     break;
+	            case "exit":  System.exit(0);
+	                     break;
+	            default: System.out.println("Invalid command");
+	                     break;
+	        }
+		   }
+		}
+		catch ( IOException ioe ) {
+		   // won't happen too often from the keyboard
+		}
+	}
+
+}
