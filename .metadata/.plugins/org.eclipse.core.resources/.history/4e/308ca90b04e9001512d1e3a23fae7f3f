@@ -51,7 +51,7 @@ public class ConsoleInterp {
 		return result;
 	}
 	@SuppressWarnings("null")
-	public static void main(String[] args) {
+	public void main(String[] args) {
 				String[] parts;
 		
 				InputStreamReader isr = new InputStreamReader ( System.in );

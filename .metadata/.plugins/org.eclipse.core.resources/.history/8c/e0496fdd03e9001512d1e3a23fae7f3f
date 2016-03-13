@@ -61,7 +61,7 @@ public class ConsoleInterp {
 		try {
 		   while ( (s = br.readLine ()) != null ) {
 			  parts = s.split(" ");
-			   switch (parts[0]) {
+			  switch (parts[0]) {
 	            case "ping":  System.out.printf("Your command is ping%n");
 	                     break;
 	            case "echo":           	
