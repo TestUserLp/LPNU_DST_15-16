@@ -26,7 +26,7 @@ public class ConsoleInterp {
 		     System.exit(1);
 		   }
 		}
-	public static void actionPerformed(ActionEvent event){
+	/*public void actionPerformed(ActionEvent event){
 		   Object source = event.getSource();
 
 		   if(source == button){
@@ -44,7 +44,7 @@ public class ConsoleInterp {
 		     System.out.println("Read failed");
 		     System.exit(1);
 		   }
-		}  
+		} */ 
 	static String[] partsout(String[] array, int index)
 	{
 		 String [] result = new String[array.length-index];
@@ -62,12 +62,11 @@ public class ConsoleInterp {
 				InputStreamReader isr = new InputStreamReader ( System.in );
 		BufferedReader br = new BufferedReader ( isr );
 				String s = null;
-				listenSocket();
 				System.out.printf("Enter String%n");
 		try {
 		   while ( (s = br.readLine ()) != null ) {
 			  parts = s.split(" ");
-			  
+			  listenSocket(); 
 			  switch (parts[0]) {
 	            case "ping":  System.out.printf("Your command is ping%n");
 	                     break;

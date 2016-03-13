@@ -26,7 +26,7 @@ public class ConsoleInterp {
 		     System.exit(1);
 		   }
 		}
-	public static void actionPerformed(ActionEvent event){
+	/*public void actionPerformed(ActionEvent event){
 		   Object source = event.getSource();
 
 		   if(source == button){
@@ -44,7 +44,7 @@ public class ConsoleInterp {
 		     System.out.println("Read failed");
 		     System.exit(1);
 		   }
-		}  
+		} */ 
 	static String[] partsout(String[] array, int index)
 	{
 		 String [] result = new String[array.length-index];
