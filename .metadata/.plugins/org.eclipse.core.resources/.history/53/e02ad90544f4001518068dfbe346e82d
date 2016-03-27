@@ -135,7 +135,7 @@ public class ConsoleInterp {
 	            	try {
 	      			  
 	      			  proxy.exit(sessionID);
-	      			  isClosed=true;
+	      			  isClosed=false;
 	      			  
 	      			} catch(RemoteException ex){
 	      			   // handle communication exception
