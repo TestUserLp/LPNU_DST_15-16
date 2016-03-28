@@ -75,7 +75,7 @@ public class ConsoleInterp {
 	public static void main(String[] args)
 			throws ClassNotFoundException, UnknownHostException, IOException, NotBoundException {
 		try {
-			Registry registry = LocateRegistry.getRegistry("lv.rst.uk.to", 152);
+			Registry registry = LocateRegistry.getRegistry("0.0.0.0", 4321);
 			proxy = (IServer) registry.lookup(IServer.RMI_SERVER_NAME);
 			String[] parts;
 			InputStreamReader isr = new InputStreamReader(System.in);
