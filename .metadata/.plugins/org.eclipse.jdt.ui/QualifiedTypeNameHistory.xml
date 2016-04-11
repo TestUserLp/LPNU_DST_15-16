@@ -31,4 +31,10 @@
 <fullyQualifiedTypeName name="java.rmi.ServerException"/>
 <fullyQualifiedTypeName name="lpi.server.rmi.IServer.Message"/>
 <fullyQualifiedTypeName name="lpi.server.rmi.IServer.FileInfo"/>
+<fullyQualifiedTypeName name="lpi.dst.chat.soap.proxy.ChatServer"/>
+<fullyQualifiedTypeName name="lpi.dst.chat.soap.proxy.IChatServer"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="lpi.dst.chat.soap.proxy.FileInfo"/>
+<fullyQualifiedTypeName name="lpi.dst.chat.soap.proxy.Message"/>
+<fullyQualifiedTypeName name="java.net.URL"/>
 </qualifiedTypeNameHistroy>
