@@ -1,5 +1,6 @@
 package cons;
 
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -13,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,10 +31,13 @@ import java.util.TimerTask;
 
 import javax.security.auth.login.LoginException;
 
-import lpi.server.rmi.IServer;
-import lpi.server.rmi.IServer.ArgumentException;
-import lpi.server.rmi.IServer.FileInfo;
-import lpi.server.rmi.IServer.Message;
+import lpi.dst.chat.soap.proxy.ArgumentFault;
+import lpi.dst.chat.soap.proxy.ChatServer;
+import lpi.dst.chat.soap.proxy.FileInfo;
+import lpi.dst.chat.soap.proxy.IChatServer;
+import lpi.dst.chat.soap.proxy.LoginFault;
+import lpi.dst.chat.soap.proxy.Message;
+import lpi.dst.chat.soap.proxy.ServerFault;
 
 public class ConsoleInterp {
 
@@ -44,15 +49,36 @@ public class ConsoleInterp {
 		}
 		return result;
 	}
+	
+	private static FileInfo createFileInfo(String receiver, File file) throws IOException{
+		 String filename = file.getName();
+		 byte[] content =  Files.readAllBytes(file.toPath());
 
+		FileInfo fileInfo = new FileInfo();
+		fileInfo.setReceiver(receiver);
+		fileInfo.setFilename(filename);
+		fileInfo.setFileContent(content);
+
+		return fileInfo;
+		}
+	
+	private static Message createMessage(String receiver, String message){
+		Message newMessage = new Message();
+		newMessage.setReceiver(receiver);
+		newMessage.setMessage(message);
+		return newMessage;
+		
+	}
+	
+	
 	private static class MyTimerTask extends TimerTask {
 		public void run() {
 			try {
-				Message ReceivedMessage = proxy.receiveMessage(sessionID);
+				Message ReceivedMessage = serverProxy.receiveMessage(sessionID);
 				if (ReceivedMessage != null)
 					System.out.println(
 							"Incoming Message" + ReceivedMessage.getMessage() + "from" + ReceivedMessage.getSender());
-				FileInfo ReceivedFile = proxy.receiveFile(sessionID);
+				FileInfo ReceivedFile = serverProxy.receiveFile(sessionID);
 				if (ReceivedFile != null) {
 					Path path = Paths.get("D:\\Desktop", ReceivedFile.getFilename());
 					Path content = Files.write(path, ReceivedFile.getFileContent(), StandardOpenOption.CREATE);
@@ -64,19 +90,25 @@ public class ConsoleInterp {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (ArgumentFault e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ServerFault e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
 
 	public static String sessionID = null;
-	public static IServer proxy;
+	public static IChatServer serverProxy;
 
 	@SuppressWarnings("null")
-	public static void main(String[] args)
-			throws ClassNotFoundException, UnknownHostException, IOException, NotBoundException {
+	public static void main(String[] args) throws ClassNotFoundException, UnknownHostException, IOException,
+			NotBoundException, ArgumentFault, ServerFault, LoginFault {
 		try {
-			Registry registry = LocateRegistry.getRegistry("lv.rst.uk.to", 152);
-			proxy = (IServer) registry.lookup(IServer.RMI_SERVER_NAME);
+			ChatServer serverWrapper = new ChatServer(new URL("http://lv.rst.uk.to:153/chat?wsdl"));
+			serverProxy = serverWrapper.getChatServerProxy();
 			String[] parts;
 			InputStreamReader isr = new InputStreamReader(System.in);
 			BufferedReader br = new BufferedReader(isr);
@@ -91,63 +123,30 @@ public class ConsoleInterp {
 				parts = s.split(" ");
 				switch (parts[0]) {
 				case "ping":
-					try {
-						proxy.ping();
-					} catch (RemoteException ex) {
-						// handle communication exception
-					}
+					serverProxy.ping();
 					break;
 				case "echo":
-					try {
-						System.out.println(proxy.echo(String.join(" ", partsout(parts, 1))));
-					} catch (RemoteException ex) {
-						// handle communication exception
-					}
+					System.out.println(serverProxy.echo(String.join(" ", partsout(parts, 1))));
 					break;
 				case "login":
-					try {
-						sessionID = proxy.login(parts[1], parts[2]);
-						System.out.println(sessionID);
-						if (sessionID != null && !isTimerStarted)
-							isTimerStarted = true;
-						timeToReceiveMsg.schedule(new MyTimerTask(), 0, 1000);
-					} catch (RemoteException ex) {
-						// handle communication exception
-					}
+					sessionID = serverProxy.login(parts[1], parts[2]);
+					System.out.println(sessionID);
+					if (sessionID != null && !isTimerStarted)
+						isTimerStarted = true;
+					timeToReceiveMsg.schedule(new MyTimerTask(), 0, 1000);
 					break;
 				case "list":
-					try {
-						System.out.println("List of active users:" + Arrays.toString(proxy.listUsers(sessionID)));
-					} catch (RemoteException ex) {
-						// handle communication exception
-					}
+					System.out.println("List of active users:" + serverProxy.listUsers(sessionID));
 					break;
 				case "msg":
-					try {
-						Message NewMessage = new Message(parts[1], String.join(" ", partsout(parts, 2)));
-						proxy.sendMessage(sessionID, NewMessage);
-					} catch (RemoteException ex) {
-						// handle communication exception
-					}
+					serverProxy.sendMessage(sessionID, createMessage(parts[1], String.join(" ", partsout(parts, 2))));
 					break;
 				case "file":
-					try {
-						FileInfo NewFileInfo = new FileInfo(parts[1], new File(parts[2]));
-						proxy.sendFile(sessionID, NewFileInfo);
-					} catch (RemoteException ex) {
-						// handle communication exception
-					}
-
+					serverProxy.sendFile(sessionID, createFileInfo(parts[1], new File(parts[2])));
 					break;
 				case "exit":
-					try {
-
-						proxy.exit(sessionID);
-						isClosed = true;
-
-					} catch (RemoteException ex) {
-						// handle communication exception
-					}
+					serverProxy.exit(sessionID);
+					isClosed = true;
 					break;
 				default:
 					System.out.println("Invalid command");
