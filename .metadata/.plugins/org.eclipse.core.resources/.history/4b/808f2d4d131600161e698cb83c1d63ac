@@ -16,7 +16,6 @@ import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 public class ConsoleInterp {
 	static String senderLogin;
-
 	static String[] partsout(String[] array, int index) {
 		String[] result = new String[array.length - index];
 		for (int i = index; i < (array.length); i++) {
@@ -34,10 +33,10 @@ public class ConsoleInterp {
 			InputStreamReader isr = new InputStreamReader(System.in);
 			BufferedReader br = new BufferedReader(isr);
 			String s = null;
-			// Timer timeToReceiveMsg = new Timer();
+			//Timer timeToReceiveMsg = new Timer();
 			System.out.printf("Enter String%n");
 			boolean isClosed = false;
-			// boolean isTimerStarted = false;
+			//boolean isTimerStarted = false;
 			while (!isClosed) {
 
 				s = br.readLine();
@@ -67,7 +66,7 @@ public class ConsoleInterp {
 					else
 						System.out.println("Error code" + responseOnLogin.getStatus());
 					client.register(HttpAuthenticationFeature.basic(userInfo.getLogin(), userInfo.getPassword()));
-					senderLogin = userInfo.getLogin();
+					senderLogin=userInfo.getLogin();
 					/*
 					 * if (userInfo != null && !isTimerStarted) isTimerStarted =
 					 * true; timeToReceiveMsg.schedule(new MyTimerTask(), 0,
@@ -75,13 +74,9 @@ public class ConsoleInterp {
 					 */
 					break;
 				case "list":
-					try {
 					WrappedList users = client.target("http://localhost:8080/chat/server/users")
 							.request(MediaType.APPLICATION_JSON_TYPE).get(WrappedList.class);
 					System.out.println("List of active users:" + users.items);
-					} catch (Exception ex) {
-						throw new IOException("Failed to retrieve the list of users", ex);
-					}
 					break;
 				case "msg":
 					try {
@@ -99,29 +94,27 @@ public class ConsoleInterp {
 					break;
 				case "file":
 					try {
-						if (senderLogin != null) {
-							File file=new File(parts[2]);
-							FileInfo fileInfo = new FileInfo(senderLogin, file);
-							Entity fileInfoEntity = Entity.entity(fileInfo, MediaType.APPLICATION_JSON_TYPE);
-							Response responseOnFile = client.target("http://localhost:8080/chat/server/parts[1]/files")
-									.request(MediaType.APPLICATION_JSON_TYPE).post(fileInfoEntity);
-							if (responseOnFile.getStatus() >= 300)
-								throw new IOException(String.format("%sFailed to send the file: %s",
-										responseOnFile.getStatus(), responseOnFile.getEntity()));
+						if (senderLogin!=null){ FileInfo fileInfo = new FileInfo(senderLogin, new File(parts[2]));
+						Entity fileInfoEntity = Entity.entity(fileInfo, MediaType.APPLICATION_JSON_TYPE);
+						Response responseOnFile = client.target("http://localhost:8080/chat/server/parts[1]/files")
+								.request(MediaType.APPLICATION_JSON_TYPE).post(fileInfoEntity);
+						if (responseOnFile.getStatus() >= 300)
+							throw new IOException(String.format("%sFailed to send the file: %s",
+									responseOnFile.getStatus(), responseOnFile.getEntity()));
 						}
 					} catch (IOException ex) {
 						throw ex;
 					} catch (Exception ex) {
 						throw new IOException("Failed to send the file.", ex);
 					}
-
+					
 					break;
 				case "exit":
 					if (client != null) {
 						client.close();
-						isClosed = true;
-						isr.close();
-						br.close();
+					isClosed = true;
+					isr.close();
+					br.close();
 					}
 					break;
 				default:

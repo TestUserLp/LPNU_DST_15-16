@@ -75,13 +75,9 @@ public class ConsoleInterp {
 					 */
 					break;
 				case "list":
-					try {
 					WrappedList users = client.target("http://localhost:8080/chat/server/users")
 							.request(MediaType.APPLICATION_JSON_TYPE).get(WrappedList.class);
 					System.out.println("List of active users:" + users.items);
-					} catch (Exception ex) {
-						throw new IOException("Failed to retrieve the list of users", ex);
-					}
 					break;
 				case "msg":
 					try {
@@ -100,8 +96,9 @@ public class ConsoleInterp {
 				case "file":
 					try {
 						if (senderLogin != null) {
-							File file=new File(parts[2]);
-							FileInfo fileInfo = new FileInfo(senderLogin, file);
+							java.util.Base64.Encoder encoder = java.util.Base64.getEncoder();
+							String fileContent = encoder.encodeToString(Files.readAllBytes(file.toPath()));
+							FileInfo fileInfo = new FileInfo(senderLogin, new File(parts[2]));
 							Entity fileInfoEntity = Entity.entity(fileInfo, MediaType.APPLICATION_JSON_TYPE);
 							Response responseOnFile = client.target("http://localhost:8080/chat/server/parts[1]/files")
 									.request(MediaType.APPLICATION_JSON_TYPE).post(fileInfoEntity);
