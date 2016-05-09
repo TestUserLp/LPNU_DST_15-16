@@ -1,0 +1,362 @@
+package cons;
+
+import java.awt.List;
+import java.awt.PageAttributes.MediaType;
+import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.ServerException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.security.auth.login.LoginException;
+import javax.ws.rs.client.Client;
+
+import lpi.dst.chat.soap.proxy.ArgumentFault;
+import lpi.dst.chat.soap.proxy.ChatServer;
+import lpi.dst.chat.soap.proxy.FileInfo;
+import lpi.dst.chat.soap.proxy.IChatServer;
+import lpi.dst.chat.soap.proxy.LoginFault;
+import lpi.dst.chat.soap.proxy.Message;
+import lpi.dst.chat.soap.proxy.ServerFault;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+
+
+public class ConsoleInterp {
+
+	static String[] partsout(String[] array, int index) {
+		String[] result = new String[array.length - index];
+		for (int i = index; i < (array.length); i++) {
+			result[i - index] = array[i];
+
+		}
+		return result;
+	}
+	
+	private static final MediaType DEFAULT_MEDIA_TYPE = MediaType.APPLICATION_JSON_TYPE;
+	private static final String PING_RESOURCE = "ping";
+	private static final String ECHO_RESOURCE = "echo";
+	private static final String LOGIN_RESOURCE = "user";
+	private static final String LIST_USERS_RESOURCE = "users";
+	private static final String MESSAGES_RESOURCE = "messages";
+	private static final String FILES_RESOURCE = "files";
+
+	private String baseAddress;
+	private Client client;
+	private boolean isLoggedIn;
+	private String login;
+
+	
+	public String getName() {
+		return "REST Chat Client";
+	}
+
+	public void configure(String[] args) {
+		if (args.length > 1) {
+			this.baseAddress = String.format("http://%s:%s/chat/server", args[0], args[1]);
+		}
+	}
+
+	public void connect() throws IOException {
+		if (this.baseAddress == null)
+			throw new RuntimeException(
+					"The client is not configured. Please, invoke 'configure()' with server address and port as parameters.");
+
+		this.client = ClientBuilder.newClient();
+	}
+
+	public void close() throws IOException {
+
+		if (this.client != null) {
+			this.client.close();
+			this.client = null;
+		}
+	}
+
+	public void ping() throws IOException {
+
+		ensureConnected();
+
+		try {
+			resource(MediaType.TEXT_PLAIN_TYPE, PING_RESOURCE).get(String.class);
+		} catch (Exception ex) {
+			throw new IOException("Failed to ping the server.", ex);
+		}
+	}
+
+	
+	public String echo(String text) throws IOException {
+		ensureConnected();
+
+		try {
+			return resource(MediaType.TEXT_PLAIN_TYPE, ECHO_RESOURCE).post(Entity.text(text), String.class);
+		} catch (Exception ex) {
+			throw new IOException("Failed to retrieve echo from the server.", ex);
+		}
+	}
+
+	public boolean isLoggedIn() {
+		return this.isLoggedIn;
+	}
+
+	public void login(String login, String password) throws IOException, LoginException {
+		try {
+			Response response = resource(MediaType.TEXT_PLAIN_TYPE, LOGIN_RESOURCE)
+					.put(Entity.entity(new UserInfo(login, password), MediaType.APPLICATION_JSON_TYPE));
+
+			if (response.getStatus() == Status.CREATED.getStatusCode())
+				System.out.println("New user registered");
+			else if (response.getStatus() < 300)
+				System.out.println("Logged in successfully.");
+			else
+				throw new LoginException(String.format("%s: %s", response.getStatus(), response.getEntity()));
+
+			this.client.register(HttpAuthenticationFeature.basic(login, password));
+			this.login = login;
+			this.isLoggedIn = true;
+
+			startAsyncActivities();
+
+		} catch (LoginException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			throw new IOException("Failed to login", ex);
+		}
+	}
+
+	public List<String> listUsers() throws IOException {
+		try {
+			return resource(LIST_USERS_RESOURCE).get(WrappedList.class).items;
+		} catch (Exception ex) {
+			throw new IOException("Failed to retrieve the list of users", ex);
+		}
+	}
+
+	@Override
+	public void sendMessage(String login, String message) throws IOException {
+		try {
+			Response response = resource(login, MESSAGES_RESOURCE).post(Entity.text(message));
+
+			if (response.getStatus() >= 300)
+				throw new IOException(String.format("%s: %s", response.getStatus(), response.getEntity()));
+
+		} catch (IOException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			throw new IOException("Failed to retrieve the list of users", ex);
+		}
+	}
+
+	@Override
+	public void sendFile(String login, File file) throws IOException {
+		try {
+			Response response = resource(login, FILES_RESOURCE).post(entity(new FileInfo(this.login, file)));
+
+			if(response.getStatus() >= 300)
+				throw new IOException(String.format("%sFailed to send the file: %s", response.getStatus(), response.getEntity()));
+				
+		} catch (IOException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			throw new IOException("Failed to send the file.", ex);
+		}
+	}
+
+	@Override
+	protected String[] receiveMessage() throws IOException {
+		try {
+			// receiving the list of messages.
+			Response response = resource(this.login, MESSAGES_RESOURCE).get();
+
+			if (response.getStatus() >= 300)
+				throw new IOException(String.format("%s: Failed to retrieve the message list: %s", response.getStatus(),
+						response.getEntity()));
+
+			// no messages available.
+			if (response.getStatus() == Status.NO_CONTENT.getStatusCode() || !response.hasEntity())
+				return null;
+
+			WrappedList msgs = response.readEntity(WrappedList.class);
+
+			if (msgs == null || msgs.items == null || msgs.items.size() == 0)
+				return null;
+
+			// receiving the first message.
+			String messageId = msgs.items.get(0);
+			Message msg = resource(this.login, MESSAGES_RESOURCE, messageId).get(Message.class);
+
+			if (msg == null || msg.getSender() == null || msg.getSender().length() == 0)
+				throw new IOException("Received message is corrupted: Message sender is not specified.");
+
+			// deleting the message.
+			response = resource(this.login, MESSAGES_RESOURCE, messageId).delete();
+
+			if (response.getStatus() >= 300)
+				throw new IOException(String.format("%s: Failed to delete the message %s on the server: %s",
+						response.getStatus(), messageId, response.getEntity()));
+
+			return new String[] { msg.getSender(), msg.getMessage() };
+
+		} catch (IOException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			throw new IOException("Failed to receive file", ex);
+		}
+	}
+
+	@Override
+	protected Object[] receiveFile() throws IOException {
+		try {
+			// receiving the list of files.
+			Response response = resource(this.login, FILES_RESOURCE).get();
+
+			if (response.getStatus() >= 300)
+				throw new IOException(String.format("%s: Failed to retrieve the file list: %s", response.getStatus(),
+						response.getEntity()));
+
+			// no files available.
+			if (response.getStatus() == Status.NO_CONTENT.getStatusCode() || !response.hasEntity())
+				return null;
+
+			WrappedList files = response.readEntity(WrappedList.class);
+
+			if (files == null || files.items == null || files.items.size() == 0)
+				return null;
+
+			// receiving the first file.
+			String fileId = files.items.get(0);
+			FileInfo file = resource(this.login, FILES_RESOURCE, fileId).get(FileInfo.class);
+
+			if (file == null || file.getSender() == null || file.getSender().length() == 0)
+				throw new IOException("Received file is corrupted: File sender is not specified.");
+
+			if (file.getFilename() == null || file.getFilename().length() == 0)
+				throw new IOException("Received file is corrupted: File name is not specified.");
+
+			// deleting the file.
+			response = resource(this.login, FILES_RESOURCE, fileId).delete();
+
+			if (response.getStatus() >= 300)
+				throw new IOException(String.format("%s: Failed to delete the file %s on the server: %s",
+						response.getStatus(), fileId, response.getEntity()));
+
+			// returning the file.
+			return new Object[] { file.getSender(), file.getFilename(), file.getContentBytes() };
+
+		} catch (IOException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			throw new IOException("Failed to receive the file", ex);
+		}
+	}
+
+	private void ensureConnected() {
+		if (this.client == null)
+			throw new RuntimeException("The client is not connected now. Invoke 'connect()' first.");
+	}
+
+	private <T> Entity<T> entity(T obj) {
+		return Entity.entity(obj, DEFAULT_MEDIA_TYPE);
+	}
+
+	private Invocation.Builder resource(String... path) {
+		return resource(DEFAULT_MEDIA_TYPE, path);
+	}
+
+	private Invocation.Builder resource(MediaType mediaType, String... path) {
+		String address = this.baseAddress;
+
+		if (path != null && path.length > 0)
+			address = String.format("%s/%s", this.baseAddress, String.join("/", path));
+
+		return this.client.target(address).request(mediaType);
+	}
+}
+
+	@SuppressWarnings("null")
+	public static void main(String[] args) throws ClassNotFoundException, UnknownHostException, IOException,
+			NotBoundException, ArgumentFault, ServerFault, LoginFault {
+		try {
+			javax.ws.rs.client.Client client = javax.ws.rs.client.ClientBuilder.newClient();
+			String[] parts;
+			InputStreamReader isr = new InputStreamReader(System.in);
+			BufferedReader br = new BufferedReader(isr);
+			String s = null;
+			Timer timeToReceiveMsg = new Timer();
+			System.out.printf("Enter String%n");
+			boolean isClosed = false;
+			boolean isTimerStarted = false;
+			while (!isClosed) {
+
+				s = br.readLine();
+				parts = s.split(" ");
+				switch (parts[0]) {
+				case "ping":
+					serverProxy.ping();
+					break;
+				case "echo":
+					System.out.println(serverProxy.echo(String.join(" ", partsout(parts, 1))));
+					break;
+				case "login":
+					sessionID = serverProxy.login(parts[1], parts[2]);
+					System.out.println(sessionID);
+					if (sessionID != null && !isTimerStarted)
+						isTimerStarted = true;
+					timeToReceiveMsg.schedule(new MyTimerTask(), 0, 1000);
+					break;
+				case "list":
+					System.out.println("List of active users:" + serverProxy.listUsers(sessionID));
+					break;
+				case "msg":
+					serverProxy.sendMessage(sessionID, createMessage(parts[1], String.join(" ", partsout(parts, 2))));
+					break;
+				case "file":
+					serverProxy.sendFile(sessionID, createFileInfo(parts[1], new File(parts[2])));
+					break;
+				case "exit":
+					serverProxy.exit(sessionID);
+					isClosed = true;
+					break;
+				default:
+					System.out.println("Invalid command");
+					break;
+				}
+			}
+
+		} catch (UnknownHostException e) {
+			System.out.println("Unknown host: 0.0.0.0");
+			System.exit(1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}

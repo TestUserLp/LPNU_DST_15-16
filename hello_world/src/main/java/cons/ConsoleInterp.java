@@ -1,46 +1,21 @@
 package cons;
 
-import java.awt.List;
-import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.URL;
 import java.net.UnknownHostException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.ServerException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
-import javax.security.auth.login.LoginException;
-
-import lpi.dst.chat.soap.proxy.ArgumentFault;
-import lpi.dst.chat.soap.proxy.ChatServer;
-import lpi.dst.chat.soap.proxy.FileInfo;
-import lpi.dst.chat.soap.proxy.IChatServer;
-import lpi.dst.chat.soap.proxy.LoginFault;
-import lpi.dst.chat.soap.proxy.Message;
-import lpi.dst.chat.soap.proxy.ServerFault;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 public class ConsoleInterp {
-
+	static String senderLogin;
 	static String[] partsout(String[] array, int index) {
 		String[] result = new String[array.length - index];
 		for (int i = index; i < (array.length); i++) {
@@ -49,104 +24,98 @@ public class ConsoleInterp {
 		}
 		return result;
 	}
-	
-	private static FileInfo createFileInfo(String receiver, File file) throws IOException{
-		 String filename = file.getName();
-		 byte[] content =  Files.readAllBytes(file.toPath());
 
-		FileInfo fileInfo = new FileInfo();
-		fileInfo.setReceiver(receiver);
-		fileInfo.setFilename(filename);
-		fileInfo.setFileContent(content);
-
-		return fileInfo;
-		}
-	
-	private static Message createMessage(String receiver, String message){
-		Message newMessage = new Message();
-		newMessage.setReceiver(receiver);
-		newMessage.setMessage(message);
-		return newMessage;
-		
-	}
-	
-	
-	private static class MyTimerTask extends TimerTask {
-		public void run() {
-			try {
-				Message ReceivedMessage = serverProxy.receiveMessage(sessionID);
-				if (ReceivedMessage != null)
-					System.out.println(
-							"Incoming Message" + ReceivedMessage.getMessage() + "from" + ReceivedMessage.getSender());
-				FileInfo ReceivedFile = serverProxy.receiveFile(sessionID);
-				if (ReceivedFile != null) {
-					Path path = Paths.get("D:\\Desktop", ReceivedFile.getFilename());
-					Path content = Files.write(path, ReceivedFile.getFileContent(), StandardOpenOption.CREATE);
-					System.out
-							.println("Incoming File:" + ReceivedFile.getFilename() + "from" + ReceivedFile.getSender());
-				}
-			} catch (RemoteException ex) {
-				// handle communication exception
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ArgumentFault e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ServerFault e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public static String sessionID = null;
-	public static IChatServer serverProxy;
-
-	@SuppressWarnings("null")
-	public static void main(String[] args) throws ClassNotFoundException, UnknownHostException, IOException,
-			NotBoundException, ArgumentFault, ServerFault, LoginFault {
+	@SuppressWarnings({ "rawtypes" })
+	public static void main(String[] args) {
 		try {
-			ChatServer serverWrapper = new ChatServer(new URL("http://lv.rst.uk.to:153/chat?wsdl"));
-			serverProxy = serverWrapper.getChatServerProxy();
+			Client client = ClientBuilder.newClient();
 			String[] parts;
 			InputStreamReader isr = new InputStreamReader(System.in);
 			BufferedReader br = new BufferedReader(isr);
 			String s = null;
-			Timer timeToReceiveMsg = new Timer();
+			//Timer timeToReceiveMsg = new Timer();
 			System.out.printf("Enter String%n");
 			boolean isClosed = false;
-			boolean isTimerStarted = false;
+			//boolean isTimerStarted = false;
 			while (!isClosed) {
 
 				s = br.readLine();
 				parts = s.split(" ");
 				switch (parts[0]) {
 				case "ping":
-					serverProxy.ping();
+					String response = client.target("http://localhost:8080/chat/server/ping")
+							.request(MediaType.TEXT_PLAIN_TYPE).get(String.class);
+					if (response != null)
+						System.out.println("Ping successfull");
 					break;
 				case "echo":
-					System.out.println(serverProxy.echo(String.join(" ", partsout(parts, 1))));
+					response = client.target("http://localhost:8080/chat/server/echo")
+							.request(MediaType.TEXT_PLAIN_TYPE)
+							.post(Entity.text(String.join(" ", partsout(parts, 1))), String.class);
+					System.out.println(response);
 					break;
 				case "login":
-					sessionID = serverProxy.login(parts[1], parts[2]);
-					System.out.println(sessionID);
-					if (sessionID != null && !isTimerStarted)
-						isTimerStarted = true;
-					timeToReceiveMsg.schedule(new MyTimerTask(), 0, 1000);
+					UserInfo userInfo = new UserInfo();
+					userInfo.setLogin(parts[1]);
+					userInfo.setPassword(parts[2]);
+					Entity userInfoEntity = Entity.entity(userInfo, MediaType.APPLICATION_JSON_TYPE);
+					Response responseOnLogin = client.target("http://localhost:8080/chat/server/user")
+							.request(MediaType.TEXT_PLAIN_TYPE).put(userInfoEntity);
+					if (responseOnLogin.getStatus() == Status.CREATED.getStatusCode())
+						System.out.println("New user registered");
+					else
+						System.out.println("Error code" + responseOnLogin.getStatus());
+					client.register(HttpAuthenticationFeature.basic(userInfo.getLogin(), userInfo.getPassword()));
+					senderLogin=userInfo.getLogin();
+					/*
+					 * if (userInfo != null && !isTimerStarted) isTimerStarted =
+					 * true; timeToReceiveMsg.schedule(new MyTimerTask(), 0,
+					 * 1000);
+					 */
 					break;
 				case "list":
-					System.out.println("List of active users:" + serverProxy.listUsers(sessionID));
+					WrappedList users = client.target("http://localhost:8080/chat/server/users")
+							.request(MediaType.APPLICATION_JSON_TYPE).get(WrappedList.class);
+					System.out.println("List of active users:" + users.items);
 					break;
 				case "msg":
-					serverProxy.sendMessage(sessionID, createMessage(parts[1], String.join(" ", partsout(parts, 2))));
+					try {
+						Response responseOnMessage = client.target("http://localhost:8080/chat/server/parts[1]/message")
+								.request(MediaType.APPLICATION_JSON_TYPE)
+								.post(Entity.text(String.join(" ", partsout(parts, 2))));
+						if (responseOnMessage.getStatus() >= 300)
+							throw new IOException(String.format("%s: %s", responseOnMessage.getStatus(),
+									responseOnMessage.getEntity()));
+					} catch (IOException ex) {
+						throw ex;
+					} catch (Exception ex) {
+						throw new IOException("Failed to send message", ex);
+					}
 					break;
 				case "file":
-					serverProxy.sendFile(sessionID, createFileInfo(parts[1], new File(parts[2])));
+					try {
+						if (senderLogin!=null){ FileInfo fileInfo = new FileInfo(senderLogin, new File(parts[2]));
+						Entity fileInfoEntity = Entity.entity(fileInfo, MediaType.APPLICATION_JSON_TYPE);
+						Response responseOnFile = client.target("http://localhost:8080/chat/server/parts[1]/files")
+								.request(MediaType.APPLICATION_JSON_TYPE).post(fileInfoEntity);
+						if (responseOnFile.getStatus() >= 300)
+							throw new IOException(String.format("%sFailed to send the file: %s",
+									responseOnFile.getStatus(), responseOnFile.getEntity()));
+						}
+					} catch (IOException ex) {
+						throw ex;
+					} catch (Exception ex) {
+						throw new IOException("Failed to send the file.", ex);
+					}
+					
 					break;
 				case "exit":
-					serverProxy.exit(sessionID);
+					if (client != null) {
+						client.close();
 					isClosed = true;
+					isr.close();
+					br.close();
+					}
 					break;
 				default:
 					System.out.println("Invalid command");
@@ -155,7 +124,7 @@ public class ConsoleInterp {
 			}
 
 		} catch (UnknownHostException e) {
-			System.out.println("Unknown host: 0.0.0.0");
+			System.out.println("Unknown host");
 			System.exit(1);
 		} catch (IOException e) {
 			e.printStackTrace();
