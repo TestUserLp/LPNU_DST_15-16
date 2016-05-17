@@ -2296,3 +2296,24 @@ org.eclipse.core.internal.resources.ResourceException: Could not read metadata f
 2016-05-17 11:41:47,571 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
 2016-05-17 11:41:47,572 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2016-05-17 11:41:47,572 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Documents\Dropbox\Distributed systems and Clouds\2015-2016\Seminars\code\server.rest\src\test\resources
+2016-05-17 12:02:31,529 [main] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache file is out-of-date. Remote download required.
+2016-05-17 12:02:34,739 [Worker-9] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/2.1/maven-compiler-plugin-2.1.pom
+2016-05-17 12:02:34,829 [Worker-9] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/2.1/maven-compiler-plugin-2.1.pom
+2016-05-17 12:02:35,062 [Worker-9] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/16/maven-plugins-16.pom
+2016-05-17 12:02:35,230 [Worker-9] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/16/maven-plugins-16.pom
+2016-05-17 12:02:35,346 [Worker-9] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/apache/maven/maven-parent/15/maven-parent-15.pom
+2016-05-17 12:02:35,475 [Worker-9] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/apache/maven/maven-parent/15/maven-parent-15.pom
+2016-05-17 12:02:35,616 [Worker-9] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/2.1/maven-compiler-plugin-2.1.jar
+2016-05-17 12:02:35,718 [Worker-9] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/2.1/maven-compiler-plugin-2.1.jar
+2016-05-17 12:02:37,257 [Worker-9] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-05-17 12:02:37,261 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Documents\LPNU_DST_15-16\hello_world\src\main\resources
+2016-05-17 12:02:37,264 [Worker-9] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-05-17 12:02:37,268 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Documents\LPNU_DST_15-16\hello_world\src\test\resources
+2016-05-17 12:02:39,607 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-05-17 12:02:39,612 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-05-17 12:02:39,614 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-05-17 12:02:39,614 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Documents\Dropbox\Distributed systems and Clouds\2015-2016\Seminars\code\server.rest\src\test\resources
+2016-05-17 12:12:04,884 [Worker-18] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-05-17 12:12:04,906 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Documents\LPNU_DST_15-16\hello_world\src\main\resources
+2016-05-17 12:12:04,908 [Worker-18] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-05-17 12:12:04,911 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Documents\LPNU_DST_15-16\hello_world\src\test\resources

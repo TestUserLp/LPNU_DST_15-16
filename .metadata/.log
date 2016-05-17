@@ -12446,3 +12446,224 @@ org.eclipse.core.internal.resources.ResourceException: Could not read metadata f
 
 !ENTRY org.eclipse.core.resources 4 567 2016-05-17 11:41:47.574
 !MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\server.rest\.indexes\properties.index'. Unexpected version: 0.
+!SESSION 2016-05-17 12:02:04.693 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.core.resources 4 567 2016-05-17 12:02:24.887
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-05-17 12:02:24.895
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\orest_lavriv'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.core.resources 4 567 2016-05-17 12:02:25.029
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\server.rest\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.team.core 4 0 2016-05-17 12:02:26.174
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:303)
+	at org.eclipse.core.internal.properties.PropertyBucket.load(PropertyBucket.java:267)
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:274)
+	at org.eclipse.core.internal.localstore.BucketTree.loadBucketFor(BucketTree.java:115)
+	at org.eclipse.core.internal.properties.PropertyManager2.getProperty(PropertyManager2.java:144)
+	at org.eclipse.core.internal.resources.Resource.getPersistentProperty(Resource.java:1151)
+	at org.eclipse.team.core.RepositoryProvider.isShared(RepositoryProvider.java:636)
+	at org.eclipse.team.internal.core.TeamHookDispatcher.getRuleFactory(TeamHookDispatcher.java:104)
+	at org.eclipse.core.internal.resources.Rules.factoryFor(Rules.java:97)
+	at org.eclipse.core.internal.resources.Rules.modifyRule(Rules.java:154)
+	at org.eclipse.core.internal.resources.Project.touch(Project.java:1302)
+	at org.eclipse.jdt.internal.core.DeltaProcessor$1.run(DeltaProcessor.java:830)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2225)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.checkExternalArchiveChanges(DeltaProcessor.java:835)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.checkExternalArchiveChanges(DeltaProcessor.java:774)
+	at org.eclipse.jdt.internal.core.JavaModel.refreshExternalArchives(JavaModel.java:251)
+	at org.eclipse.jdt.core.JavaCore.initializeAfterLoad(JavaCore.java:4138)
+	at org.eclipse.jdt.internal.ui.InitializeAfterLoadJob$RealJob.run(InitializeAfterLoadJob.java:36)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2016-05-17 12:02:26.175
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.team.core 4 0 2016-05-17 12:02:26.294
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\server.rest\.indexes\properties.index'. Unexpected version: 0.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\server.rest\.indexes\properties.index'. Unexpected version: 0.
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:303)
+	at org.eclipse.core.internal.properties.PropertyBucket.load(PropertyBucket.java:267)
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:274)
+	at org.eclipse.core.internal.localstore.BucketTree.loadBucketFor(BucketTree.java:115)
+	at org.eclipse.core.internal.properties.PropertyManager2.getProperty(PropertyManager2.java:144)
+	at org.eclipse.core.internal.resources.Resource.getPersistentProperty(Resource.java:1151)
+	at org.eclipse.team.core.RepositoryProvider.isShared(RepositoryProvider.java:636)
+	at org.eclipse.team.internal.core.TeamHookDispatcher.getRuleFactory(TeamHookDispatcher.java:104)
+	at org.eclipse.core.internal.resources.Rules.factoryFor(Rules.java:97)
+	at org.eclipse.core.internal.resources.Rules.modifyRule(Rules.java:154)
+	at org.eclipse.core.internal.resources.Project.touch(Project.java:1302)
+	at org.eclipse.jdt.internal.core.DeltaProcessor$1.run(DeltaProcessor.java:830)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2225)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.checkExternalArchiveChanges(DeltaProcessor.java:835)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.checkExternalArchiveChanges(DeltaProcessor.java:774)
+	at org.eclipse.jdt.internal.core.JavaModel.refreshExternalArchives(JavaModel.java:251)
+	at org.eclipse.jdt.core.JavaCore.initializeAfterLoad(JavaCore.java:4138)
+	at org.eclipse.jdt.internal.ui.InitializeAfterLoadJob$RealJob.run(InitializeAfterLoadJob.java:36)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2016-05-17 12:02:26.294
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\server.rest\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.team.core 4 0 2016-05-17 12:02:26.493
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:303)
+	at org.eclipse.core.internal.properties.PropertyBucket.load(PropertyBucket.java:267)
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:274)
+	at org.eclipse.core.internal.localstore.BucketTree.loadBucketFor(BucketTree.java:115)
+	at org.eclipse.core.internal.properties.PropertyManager2.getProperty(PropertyManager2.java:144)
+	at org.eclipse.core.internal.resources.Resource.getPersistentProperty(Resource.java:1151)
+	at org.eclipse.team.core.RepositoryProvider.isShared(RepositoryProvider.java:636)
+	at org.eclipse.team.internal.core.TeamResourceChangeListener.resourceChanged(TeamResourceChangeListener.java:52)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:299)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:289)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:152)
+	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:373)
+	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1470)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2250)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2225)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.checkExternalArchiveChanges(DeltaProcessor.java:835)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.checkExternalArchiveChanges(DeltaProcessor.java:774)
+	at org.eclipse.jdt.internal.core.JavaModel.refreshExternalArchives(JavaModel.java:251)
+	at org.eclipse.jdt.core.JavaCore.initializeAfterLoad(JavaCore.java:4138)
+	at org.eclipse.jdt.internal.ui.InitializeAfterLoadJob$RealJob.run(InitializeAfterLoadJob.java:36)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2016-05-17 12:02:26.493
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.team.core 4 0 2016-05-17 12:02:26.502
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\server.rest\.indexes\properties.index'. Unexpected version: 0.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\server.rest\.indexes\properties.index'. Unexpected version: 0.
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:303)
+	at org.eclipse.core.internal.properties.PropertyBucket.load(PropertyBucket.java:267)
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:274)
+	at org.eclipse.core.internal.localstore.BucketTree.loadBucketFor(BucketTree.java:115)
+	at org.eclipse.core.internal.properties.PropertyManager2.getProperty(PropertyManager2.java:144)
+	at org.eclipse.core.internal.resources.Resource.getPersistentProperty(Resource.java:1151)
+	at org.eclipse.team.core.RepositoryProvider.isShared(RepositoryProvider.java:636)
+	at org.eclipse.team.internal.core.TeamResourceChangeListener.resourceChanged(TeamResourceChangeListener.java:52)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:299)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:289)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:152)
+	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:373)
+	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1470)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2250)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2225)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.checkExternalArchiveChanges(DeltaProcessor.java:835)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.checkExternalArchiveChanges(DeltaProcessor.java:774)
+	at org.eclipse.jdt.internal.core.JavaModel.refreshExternalArchives(JavaModel.java:251)
+	at org.eclipse.jdt.core.JavaCore.initializeAfterLoad(JavaCore.java:4138)
+	at org.eclipse.jdt.internal.ui.InitializeAfterLoadJob$RealJob.run(InitializeAfterLoadJob.java:36)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2016-05-17 12:02:26.502
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\server.rest\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.team.core 4 0 2016-05-17 12:02:28.294
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:303)
+	at org.eclipse.core.internal.properties.PropertyBucket.load(PropertyBucket.java:267)
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:274)
+	at org.eclipse.core.internal.localstore.BucketTree.loadBucketFor(BucketTree.java:115)
+	at org.eclipse.core.internal.properties.PropertyManager2.getProperty(PropertyManager2.java:144)
+	at org.eclipse.core.internal.resources.Resource.getPersistentProperty(Resource.java:1151)
+	at org.eclipse.team.core.RepositoryProvider.getProvider(RepositoryProvider.java:505)
+	at org.eclipse.team.internal.core.MoveDeleteManager.getHookFor(MoveDeleteManager.java:30)
+	at org.eclipse.team.internal.core.MoveDeleteManager.deleteFolder(MoveDeleteManager.java:62)
+	at org.eclipse.core.internal.resources.Resource.unprotectedDelete(Resource.java:1830)
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:781)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.cleanOutputFolders(BatchImageBuilder.java:115)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:47)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:256)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:186)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:734)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:205)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:245)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:300)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:303)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:359)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:382)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:144)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:235)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2016-05-17 12:02:28.294
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.core.resources 4 567 2016-05-17 12:02:29.923
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2016-05-17 12:02:37.258
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2016-05-17 12:02:37.264
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.team.core 4 0 2016-05-17 12:02:37.317
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\server.rest\.indexes\properties.index'. Unexpected version: 0.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\server.rest\.indexes\properties.index'. Unexpected version: 0.
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:303)
+	at org.eclipse.core.internal.properties.PropertyBucket.load(PropertyBucket.java:267)
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:274)
+	at org.eclipse.core.internal.localstore.BucketTree.loadBucketFor(BucketTree.java:115)
+	at org.eclipse.core.internal.properties.PropertyManager2.getProperty(PropertyManager2.java:144)
+	at org.eclipse.core.internal.resources.Resource.getPersistentProperty(Resource.java:1151)
+	at org.eclipse.team.core.RepositoryProvider.getProvider(RepositoryProvider.java:505)
+	at org.eclipse.team.internal.core.MoveDeleteManager.getHookFor(MoveDeleteManager.java:30)
+	at org.eclipse.team.internal.core.MoveDeleteManager.deleteFolder(MoveDeleteManager.java:62)
+	at org.eclipse.core.internal.resources.Resource.unprotectedDelete(Resource.java:1830)
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:781)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.cleanOutputFolders(BatchImageBuilder.java:115)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:47)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:256)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:186)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:734)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:205)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:245)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:300)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:303)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:359)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:382)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:144)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:235)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2016-05-17 12:02:37.318
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\server.rest\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.core.resources 4 567 2016-05-17 12:02:38.828
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\server.rest\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.core.resources 4 567 2016-05-17 12:12:04.630
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2016-05-17 12:12:04.884
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2016-05-17 12:12:04.908
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
