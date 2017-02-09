@@ -1,0 +1,11 @@
+package tests;
+
+public class DevOpsTest {
+	class A {
+	int
+	b = 1;
+	public static void main(String [] args) {
+	System.out.println("b is " + b);
+	}
+	}
+}
