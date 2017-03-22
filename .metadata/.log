@@ -290,3 +290,72 @@ org.eclipse.core.internal.resources.ResourceException: Could not read metadata f
 
 !ENTRY org.eclipse.m2e.logback.appender 2 0 2017-02-09 11:55:07.697
 !MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+!SESSION 2017-03-22 16:29:41.974 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_121
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.team.core 4 0 2017-03-22 16:30:01.559
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:303)
+	at org.eclipse.core.internal.properties.PropertyBucket.load(PropertyBucket.java:267)
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:274)
+	at org.eclipse.core.internal.localstore.BucketTree.loadBucketFor(BucketTree.java:115)
+	at org.eclipse.core.internal.properties.PropertyManager2.getProperty(PropertyManager2.java:144)
+	at org.eclipse.core.internal.resources.Resource.getPersistentProperty(Resource.java:1151)
+	at org.eclipse.team.core.RepositoryProvider.isShared(RepositoryProvider.java:636)
+	at org.eclipse.team.internal.core.TeamHookDispatcher.getRuleFactory(TeamHookDispatcher.java:104)
+	at org.eclipse.core.internal.resources.Rules.factoryFor(Rules.java:97)
+	at org.eclipse.core.internal.resources.Rules.refreshRule(Rules.java:177)
+	at org.eclipse.core.internal.resources.Resource.refreshLocal(Resource.java:1583)
+	at org.eclipse.core.internal.resources.File.refreshLocal(File.java:308)
+	at org.eclipse.core.internal.refresh.RefreshJob.runInWorkspace(RefreshJob.java:169)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2017-03-22 16:30:01.579
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.egit.ui 2 0 2017-03-22 16:30:03.902
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\orest_lavriv'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.core.resources 4 567 2017-03-22 16:30:04.288
+!MESSAGE Could not read metadata for 'D:\Documents\LPNU_DST_15-16\.metadata\.plugins\org.eclipse.core.resources\.projects\hello_world\.indexes\properties.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2017-03-22 16:30:14.228
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2017-03-22 16:30:14.232
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2017-03-22 16:30:27.353
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2017-03-22 16:30:27.399
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2017-03-22 16:30:30.509
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2017-03-22 16:30:30.520
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2017-03-22 16:30:33.597
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2017-03-22 16:30:33.611
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2017-03-22 16:32:15.456
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2017-03-22 16:32:15.460
+!MESSAGE Using platform encoding (Cp1251 actually) to copy filtered resources, i.e. build is platform dependent!
